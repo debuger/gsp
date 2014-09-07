@@ -1,0 +1,42 @@
+{
+    "name": "Rym/GetSinglePage",
+    "type": "library",
+    "description": "Split a HTML page from provided URL into HTML/JS/CSS",
+    "keywords": ["html"],
+    "license": "GPL-3.0",
+    "authors": [
+        {
+            "name": "Alexander Rymarchik",
+            "email": "rym.the.great@gmail.com",
+            "role": "Developer"
+        }
+    ],
+    "support": {
+        "email": "rym.the.great@gmail.com"
+    },
+    "repositories": [
+        {
+            "type": "composer",
+            "url": "https://packages.zendframework.com/"
+        },
+        {
+            "type": "composer",
+            "url": "https://packagist.org/"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Rym\\": "Rym/"
+        },
+        "files": [
+            "Rym/AddPrefix.php"
+        ]
+    },
+    "require": {
+        "zendframework/zend-http": "2.3.*",
+        "zendframework/zend-dom" : "2.3.*",
+        "zendframework/zend-cache": "2.3.*",
+        "zendframework/zend-serializer": "2.3.*",
+        "stylecow/stylecow" : "dev-master"
+    }
+}
