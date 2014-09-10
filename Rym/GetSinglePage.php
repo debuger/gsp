@@ -108,7 +108,7 @@ class GetSinglePage
             foreach($res[0] as $script) {
                 $file = array();
                 if (preg_match('|src=[\'"]{1}([^"\']+)[\'"]{1}|', $script, $file)) {
-                    array_push($src, $this->getValidUrl($file[1], $url, true));
+                    array_push($src, $this->getValidUrl($file[1], $url));
                 }
             }
             $html = str_replace($res[0], '', $html);
@@ -121,7 +121,7 @@ class GetSinglePage
             foreach($res[0] as $css) {
                 $file = array();
                 if (preg_match('|href=[\'"]{1}([^"\']+)[\'"]{1}|', $css, $file)) {
-                    $cssUrl = $this->getValidUrl($file[1], $url, true);
+                    $cssUrl = $this->getValidUrl($file[1], $url);
                     $css = $this->loadCss($cssUrl);
                     $css->applyPlugins(array(
                             'BaseUrl' => dirname($cssUrl) . '/',
@@ -197,7 +197,7 @@ class GetSinglePage
         foreach ($css as $c) {
             if ($c->selector->type == '@import' && !empty($c->selector->selectors[0])) {
                 $impFile = trim(str_replace(array('\'', '"', 'url(', ')'), '', $c->selector->selectors[0]));
-                $impFile = $this->getValidUrl($impFile, dirname($file), true);
+                $impFile = $this->getValidUrl($impFile, dirname($file));
                 $import = $this->loadCss($impFile);
                 if ($import) {
                     foreach ($import->getChildren() as $child) {
@@ -215,35 +215,32 @@ class GetSinglePage
     /**
      * Get valid URL for.
      * @param string $url URL to transform.
-     * @param string $start Url to get parts from
-     * @param bool $reset Reset cache.
+     * @param string $base Url to get parts from
      *
      * @return string Valid URL.
      */
-    protected function getValidUrl($url, $start, $reset = false)
+    protected function getValidUrl($url, $base)
     {
-        static $st;
-        if (empty($st) || $reset) {
-            if (empty($start)) {
-                return $url;
-            }
-            $st = parse_url($start);
-            if (empty($st['scheme'])) {
-                $st['scheme'] = 'http';
-            }
-            $st['path'] = rtrim($st['path'], '/');
+        if (empty($base)) {
+            return $url;
         }
-        $u = parse_url($url);
-        if (empty($u['scheme'])) {
-            $u['scheme'] = $st['scheme'];
+        $baseParts = parse_url($base);
+        if (empty($baseParts['scheme'])) {
+            $baseParts['scheme'] = 'http';
         }
-        if (empty($u['host'])) {
-            $u['host'] = $st['host'];
-            if (strpos($u['path'], '/') !== 0) {
-                $u['path'] = $st['path'] . '/' . $u['path'];
+        $baseParts['path'] = rtrim($baseParts['path'], '/');
+
+        $urlParts = parse_url($url);
+        if (empty($urlParts['scheme'])) {
+            $urlParts['scheme'] = $baseParts['scheme'];
+        }
+        if (empty($urlParts['host'])) {
+            $urlParts['host'] = $baseParts['host'];
+            if (strpos($urlParts['path'], '/') !== 0) {
+                $urlParts['path'] = $baseParts['path'] . '/' . $urlParts['path'];
             }
         }
-        return $u['scheme'] . '://' . $u['host'] . $u['path'];
+        return $urlParts['scheme'] . '://' . $urlParts['host'] . $urlParts['path'];
     }
 
     /**
