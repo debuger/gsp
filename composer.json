@@ -29,6 +29,9 @@
         "psr-4": {
             "Rym\\": ""
         },
+        "psr-0": {
+            "Rym\\": ""
+        },
         "files": [
             "AddPrefix.php"
         ]
