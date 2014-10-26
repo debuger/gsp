@@ -1,5 +1,5 @@
 {
-    "name": "Rym/GetSinglePage",
+    "name": "Rym",
     "type": "library",
     "description": "Split a HTML page from provided URL into HTML/JS/CSS",
     "keywords": ["html"],
