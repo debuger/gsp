@@ -35,10 +35,10 @@
         ]
     },
     "require": {
-        "zendframework/zend-http": "2.3.*",
-        "zendframework/zend-dom" : "2.3.*",
-        "zendframework/zend-cache": "2.3.*",
-        "zendframework/zend-serializer": "2.3.*",
+        "zendframework/zend-http": "2.6.*",
+        "zendframework/zend-dom" : "2.6.*",
+        "zendframework/zend-cache": "2.6.*",
+        "zendframework/zend-serializer": "2.6.*",
         "stylecow/stylecow" : "dev-master"
     }
 }
